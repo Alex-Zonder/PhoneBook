@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! $1 ]; then
-  echo "Choice: (init|start|stop|bash|migrate|remove)"
+  echo "Choice: (init|start|stop|bash|migrate|create-dump|restore-dump|remove)"
   exit
 fi
 
@@ -23,6 +23,12 @@ case "$1" in
     ;;
   migrate)
     docker exec -i phone-mariadb sh -c 'mysql -u root --password="phone"' < config/migration/001-CreateBaseAndTables.sql
+    ;;
+  create-dump)
+    docker exec -i phone-mariadb sh -c 'mysqldump phone -u root --password="phone"' > sql-dump/phone.sql
+    ;;
+  restore-dump)
+    docker exec -i phone-mariadb sh -c 'mysql -u root --password="phone" phone' < sql-dump/phone.sql
     ;;
   remove)
     docker container rm phone-mariadb
