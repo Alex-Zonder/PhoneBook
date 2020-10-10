@@ -17,18 +17,6 @@ character set utf8
 collate utf8_general_ci;
 
 
--- Таблица пользовательских сессий --
-create table if not exists `users_sessions` (
-    `user_id` int(10) unsigned not null,
-    `session_id` varchar(64) not null,
-    `date` datetime null,
-    `useragent` varchar(255) null
-)
-engine = innodb
-character set utf8
-collate utf8_general_ci;
-
-
 -- Таблица записной книги --
 create table if not exists `phone_book` (
     `id` int(10) unsigned not null auto_increment,

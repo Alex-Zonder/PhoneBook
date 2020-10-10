@@ -27,10 +27,17 @@ class Authorize
             $this->checkSession();
         }
 
+        // If user is //
+        if ($this->user) {
+            unset($this->user["password"]);
+        }
         // dd($this->user);
     }
 
 
+    /**
+     * Get user
+     */
     public function getUser(): ?array
     {
         if (!isset($this->user) || !isset($this->user['login']))
@@ -39,16 +46,9 @@ class Authorize
     }
 
 
-    public static function logout() {
-        // Destroy Session //
-        $_SESSION = [];
-        session_destroy();
-        // Destroy Cookie //
-        self::unsetCookie('name');
-        self::unsetCookie('SESSID');
-    }
-
-
+    /**
+     * Login
+     */
     private function login($login, $password) {
         $this->user = $this->usersModel->authUser($login, $password);
         // If user is //
@@ -58,19 +58,36 @@ class Authorize
     }
 
 
+    /**
+     * Create session
+     */
     private function createSession()
     {
-        // Create session //
         $_SESSION['login'] = $this->user['login'];
     }
 
 
+    /**
+     * Check session
+     */
     private function checkSession ()
     {
-        // By Session //
         if (isset($_SESSION['login'])) {
             $this->user = $this->usersModel->getUserByLoginOrEmail($_SESSION['login']);
         }
+    }
+
+
+    /**
+     * Log out
+     */
+    public static function logout() {
+        // Destroy Session //
+        $_SESSION = [];
+        session_destroy();
+        // Destroy Cookie //
+        self::unsetCookie('name');
+        self::unsetCookie('SESSID');
     }
 
 

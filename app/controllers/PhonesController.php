@@ -8,19 +8,18 @@ use lib\DB\DbPdo;
 class PhonesController extends Controller
 {
     /**
-     * Главная страница
+     * Телефонная книга
      */
     function indexAction ()
     {
         //   Work with view params   //
         //$this->view->path = 'account/login';
-        //$this->view::$layout = 'custom';
-        //$this->view->redirect('http://ya.ru');
+        //$this->view->redirect('/');
 
         //   Work with model   //
         $phoneBook = $this->loadModel('PhoneBook');
-        $phones = $phoneBook->getPhones(1);
+        $phones = $phoneBook->getPhones($this->user['id']);
 
-        $this->view->render('Моя записная книжка', ["phones" => $phones]);
+        $this->view->render('Моя телефонная книга', ["phones" => $phones]);
     }
 }

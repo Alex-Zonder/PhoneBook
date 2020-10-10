@@ -13,8 +13,7 @@ abstract class Controller
     public function __construct($route, $config, $user) {
         $this->config = $config;
         $this->user = $user;
-        $this->view = new View($route, $config, $user);
-        // $this->model = $this->loadModel($route['controller']);
+        $this->view = new View($route, $user);
     }
 
     //----------------------------------------------------------------------//

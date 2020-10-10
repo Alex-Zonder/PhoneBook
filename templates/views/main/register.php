@@ -1,6 +1,15 @@
 <center>
 <h1>Регистрация</h1>
 
+<?php
+if (count($errors) > 0){
+    echo '<hr><b>Ошибки:</b><br>';
+    foreach ($errors as $key => $error)
+        echo $error . "<br>";
+    echo '<hr>';
+}
+?>
+
 <form method="post">
     <table>
         <tr>

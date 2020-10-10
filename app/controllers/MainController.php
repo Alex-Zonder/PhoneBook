@@ -13,25 +13,14 @@ class MainController extends Controller
     function indexAction ()
     {
         //   Work with view params   //
-        //$this->view->path = 'account/login';
-        //$this->view::$layout = 'custom';
-        //$this->view->redirect('http://ya.ru');
+        // $this->view->path = 'account/login';
+        // $this->view->redirect('/');
 
         //   Work with model   //
-        //$news = $this->model->getNews();
-        //$this->view->render('Главная страница', ['news'=>$news]);
+        $phoneBook = $this->loadModel('PhoneBook');
+        $phonesTotal = $phoneBook->countPhones($this->user['id']);
 
-        // dd($this);
-        // dd($this->config['db']);
-
-        $db = new DbPdo();
-        $users = $db->getArray('select * from users');
-        // echo "Всего пользователей: " . count($users);
-
-        $usr = $this->loadModel('Users');
-
-
-        $this->view->render('Главная страница');
+        $this->view->render('Главная страница', ['phonesTotal' => $phonesTotal]);
     }
 
 
@@ -64,6 +53,17 @@ class MainController extends Controller
      */
     function registerAction ()
     {
-        $this->view->render('Регистрация');
+        $errors = [];
+        if (isset($_POST['login'])) {
+            // dd($_POST);
+            // Check login (до 16 символов, буквы и цифры)
+            if (!preg_match('#^' . '.{4,16}' . '$#', $_POST['login'])) $errors[] = "Login error";
+            // Check email (до 16 символов, буквы и цифры)
+            if (!preg_match('#^' . '.{4,16}' . '$#', $_POST['email'])) $errors[] = "Email error";
+            // Check password (до 16 символов, буквы и цифры)
+            if (!preg_match('#^' . '.{4,16}' . '$#', $_POST['password'])) $errors[] = "Password error";
+        }
+
+        $this->view->render('Регистрация', ['errors' => $errors]);
     }
 }

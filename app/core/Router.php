@@ -65,7 +65,6 @@ class Router
             if (class_exists($path)) {
                 $action = $this->params['action'].'Action';
                 if (method_exists($path, $action)) {
-                    unset($this->user["password"]);
                     $controller = new $path($this->params, $this->config, $this->user);
                     $controller->$action();
                 }

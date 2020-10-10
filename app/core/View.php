@@ -4,18 +4,12 @@ namespace core;
 class View
 {
     public $route;
-    public $path;
     public $user;
+    public $path;
 
-    // public function __construct($route, $user, $config) {
-    // 	$this->config = $config;
-    // 	$this->user = $user;
-    // 	$this->route = $route;
-    // 	$this->path = $route['controller'] . '/' . $route['action'];
-    // }
-    public function __construct($route, $config, $user)
+
+    public function __construct($route, $user)
     {
-        $this->config = $config;
         $this->route = $route;
         $this->user = $user;
         $this->path = $route['controller'] . '/' . $route['action'];
@@ -28,7 +22,6 @@ class View
     public function render($title = 'PhoneBook', $vars = [])
     {
         // Load vars //
-        // $user = $this->user;
         extract($vars);
         // Render view //
         $path = dirname(__DIR__, 2) . '/templates/views/' . $this->path . '.php';

@@ -59,7 +59,7 @@ CREATE TABLE `users` (
   `email` varchar(64) NOT NULL,
   `password` varchar(64) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,32 +68,8 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Zonder','f-m@bk.ru','1234');
+INSERT INTO `users` VALUES (1,'Zonder','f-m@bk.ru','81dc9bdb52d04dc20036dbd8313ed055'),(2,'test','admin@admin.admin','098f6bcd4621d373cade4e832627b4f6');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `users_sessions`
---
-
-DROP TABLE IF EXISTS `users_sessions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users_sessions` (
-  `user_id` int(10) unsigned NOT NULL,
-  `session_id` varchar(64) NOT NULL,
-  `date` datetime DEFAULT NULL,
-  `useragent` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `users_sessions`
---
-
-LOCK TABLES `users_sessions` WRITE;
-/*!40000 ALTER TABLE `users_sessions` DISABLE KEYS */;
-/*!40000 ALTER TABLE `users_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -105,4 +81,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-10 14:24:06
+-- Dump completed on 2020-10-10 21:10:10
