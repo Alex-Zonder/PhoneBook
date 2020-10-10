@@ -7,18 +7,14 @@ use lib\Authorize;
 abstract class Controller
 {
     protected $config;
-    //----------------------------------------------------------------------//
-    //                             Конструктор                              //
-    //----------------------------------------------------------------------//
-    // public function __construct($route, $user, $config) {
-    // 	$this->user = $user;
-    // 	$this->view = new View($route, $user, $config);
-    // 	$this->model = $this->loadModel($route['controller']);
-    // }
-    public function __construct($route, $config) {
+    protected $user;
+
+
+    public function __construct($route, $config, $user) {
         $this->config = $config;
-        $this->view = new View($route, $config);
-        $this->model = $this->loadModel($route['controller']);
+        $this->user = $user;
+        $this->view = new View($route, $config, $user);
+        // $this->model = $this->loadModel($route['controller']);
     }
 
     //----------------------------------------------------------------------//

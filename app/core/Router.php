@@ -7,21 +7,20 @@ use lib\Authorize;
 class Router
 {
     protected $config;
-    protected $auth;
+    protected $user;
     protected $url;
     protected $routes = [];
     protected $params = [];
+
 
 
     public function __construct()
     {
         //   Load Config   //
         $this->config = require dirname(__DIR__, 2).'/config/app.php';
-        // //   Authorization   //
-        // if (isset($this->config['authorize']))
-        // 	$this->auth = new Authorize($this->config['authorize']);
-        // else
-        // 	$this->auth = new Authorize();
+        //   Authorization   //
+        $auth = new Authorize();
+        $this->user = $auth->getUser();
         //   Load Routes   //
         $this->url = trim($_SERVER['REQUEST_URI'], '/');
         $routes = require dirname(__DIR__, 2) . '/config/routes.php';
@@ -30,6 +29,7 @@ class Router
             $this->routes[$key] = $value;
         }
     }
+
 
 
     /*
@@ -47,27 +47,26 @@ class Router
     }
 
 
+
     /*
      * Старт
      */
     public function run()
     {
         if ($this->match()) {
-            // // Check access //
-            // if (isset($this->params['access']) && $this->params['access'] != 'all') {
-            // 	if (!isset($this->auth->user['name'])) {
-            // 		$this->params['controller'] = 'account';
-            // 		$this->params['action'] = 'login';
-            // 	}
-            // }
+            // Check authorized user //
+            if ($this->url != 'register' && (!isset($this->user) || !isset($this->user['login']))) {
+                $this->params['controller'] = 'main';
+                $this->params['action'] = 'login';
+            }
 
             // Load controller //
             $path = 'controllers\\' . ucfirst($this->params['controller']) . 'Controller';
             if (class_exists($path)) {
                 $action = $this->params['action'].'Action';
                 if (method_exists($path, $action)) {
-                    // $controller = new $path($this->params, $this->auth->user, $this->config);
-                    $controller = new $path($this->params, $this->config);
+                    unset($this->user["password"]);
+                    $controller = new $path($this->params, $this->config, $this->user);
                     $controller->$action();
                 }
                 else View::errorCode('Не найден экшн: ' . $action, 404, $this->config['title']);

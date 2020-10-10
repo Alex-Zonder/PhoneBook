@@ -26,11 +26,44 @@ class MainController extends Controller
 
         $db = new DbPdo();
         $users = $db->getArray('select * from users');
-        // foreach ($users as $key => $user) {
-        //     echo $user['login'] . '<br>';
-        // }
         // echo "Всего пользователей: " . count($users);
 
+        $usr = $this->loadModel('Users');
+
+
         $this->view->render('Главная страница');
+    }
+
+
+
+    /**
+     * Страница авторизации
+     */
+    function loginAction ()
+    {
+        $this->view->render('Авторизация');
+    }
+
+
+
+    /**
+     * Страница выхода
+     */
+    function logoutAction ()
+    {
+        echo "Logout";
+        \lib\Authorize::logout();
+
+        $this->view->redirect('/');
+    }
+
+
+
+    /**
+     * Страница регистрации
+     */
+    function registerAction ()
+    {
+        $this->view->render('Регистрация');
     }
 }

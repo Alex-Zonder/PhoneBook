@@ -18,12 +18,9 @@ class PhonesController extends Controller
         //$this->view->redirect('http://ya.ru');
 
         //   Work with model   //
-        //$news = $this->model->getNews();
-        //$this->view->render('Главная страница', ['news'=>$news]);
+        $phoneBook = $this->loadModel('PhoneBook');
+        $phones = $phoneBook->getPhones(1);
 
-        $db = new DbPdo();
-        $phones = $db->getArray('select * from phone_book');
-
-        $this->view->render('Главная страница', ["phones" => $phones]);
+        $this->view->render('Моя записная книжка', ["phones" => $phones]);
     }
 }

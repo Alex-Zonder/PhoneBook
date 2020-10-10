@@ -5,6 +5,7 @@ class View
 {
     public $route;
     public $path;
+    public $user;
 
     // public function __construct($route, $user, $config) {
     // 	$this->config = $config;
@@ -12,10 +13,11 @@ class View
     // 	$this->route = $route;
     // 	$this->path = $route['controller'] . '/' . $route['action'];
     // }
-    public function __construct($route, $config)
+    public function __construct($route, $config, $user)
     {
         $this->config = $config;
         $this->route = $route;
+        $this->user = $user;
         $this->path = $route['controller'] . '/' . $route['action'];
     }
 

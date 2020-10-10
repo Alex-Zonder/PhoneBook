@@ -5,7 +5,7 @@ use PDO;
 
 class DbPdo
 {
-	protected $db;
+    protected $db;
 
 
     public function __construct($database = false) {

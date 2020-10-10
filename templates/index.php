@@ -11,13 +11,24 @@
         <!-- VUE production version, optimized for size and speed
         <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
     </head>
+
+
+
     <body>
         <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
             <a class="navbar-brand" href="/">Phone Book</a>
+            <?php
+            if (isset($this) && isset($this->user)) {
+                echo "<a href='logout'>Выход</a>";
+            }
+            ?>
         </nav>
 
         <div class="container">
             <?php echo $content; ?>
         </div>
     </body>
+
+
+
 </html>
