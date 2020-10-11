@@ -9,7 +9,6 @@ fi
 
 case "$1" in
   init)
-    echo hello
     docker run --name phone-mariadb --mount type=bind,source=$(pwd)/sql-dump,target=/sql-dump -e MYSQL_ROOT_PASSWORD=phone -p 3307:3306 -d mariadb
     ;;
   start)
