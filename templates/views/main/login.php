@@ -1,4 +1,3 @@
-<center>
 <h1>Авторизация</h1>
 
 <form method="post">
@@ -16,6 +15,3 @@
     <hr>
     <a href="/register">Зарегистрироваться</a>
 </form>
-
-
-</center>

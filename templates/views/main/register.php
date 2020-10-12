@@ -1,4 +1,3 @@
-<center>
 <h1>Регистрация</h1>
 
 <?php
@@ -31,6 +30,3 @@ if (count($errors) > 0){
     </table>
     <br><input type="submit" value="Зарегистрироваться">
 </form>
-
-
-</center>

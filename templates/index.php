@@ -10,6 +10,8 @@
         <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
         <!-- VUE production version, optimized for size and speed
         <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     </head>
 
 
@@ -25,7 +27,9 @@
         </nav>
 
         <div class="container">
-            <?php echo $content; ?>
+            <center>
+                <?php echo $content; ?>
+            </center>
         </div>
     </body>
 
