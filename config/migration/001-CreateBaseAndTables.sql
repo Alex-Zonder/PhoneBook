@@ -23,7 +23,7 @@ create table if not exists `phone_book` (
     `owner_id` int(10) unsigned not null,
     `name` varchar(64) null,
     `last_name` varchar(64) null,
-    `phone` varchar(16) null,
+    `phone` varchar(32) null,
     `email` varchar(64) null,
     `image` varchar(255) null,
     primary key (id),

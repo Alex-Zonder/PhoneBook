@@ -14,7 +14,7 @@ return [
         'action' => 'logout',
     ],
 
-    'phones' => [
+    'phones\??.*' => [			// С передачей GET запросов
         'controller' => 'phones',
         'action' => 'index',
     ]
