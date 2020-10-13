@@ -113,6 +113,9 @@ var app = new Vue({
     <div style="float:left; width:40%;">
         Фото
         <hr style="margin:2px 0 4px 0;">
+        <img :src="image" width="50%" />
+        <hr style="margin:2px 0 4px 0;">
+        <input type="file" id="file-input" style="display: none;" v-on:change="onFileChange" />
         <button type="button" class="btn btn-success" v-on:click="loadPhoto()">Загрузить</button>
         <button type="button" class="btn btn-danger" v-on:click="removePhoto()">Удалить</button>
     </div>
@@ -151,11 +154,14 @@ var app = new Vue({
 </div>
 
 
+
+
 <script>
 var appEdit = new Vue({
     el: '#editTable',
     data: {
         phone: {id:'', name:'', last_name:'', email:'', phone:''},
+        image: ''
     },
     methods: {
         back() {
@@ -190,6 +196,37 @@ var appEdit = new Vue({
                     }
                     else alert('Ошибка сохранения!');
                 });
+        },
+
+
+        loadPhoto() {
+            $('#file-input').trigger('click');
+        },
+        onFileChange: function(e) {
+            var files = e.target.files || e.dataTransfer.files;
+
+            if (!files.length)
+                return;
+
+            this.createPhoto(files[0]);
+            this.sendPhoto(files[0]);
+        },
+        createPhoto(file) {
+            var image = new Image();
+            var reader = new FileReader();
+            var vm = this;
+
+            reader.onload = (e) => {
+                vm.image = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        },
+        sendPhoto(file) {
+            alert('send..' + file.name);
+        },
+        removePhoto: function (e) {
+            this.image = '';
+            alert('remove..');
         }
     }
 });

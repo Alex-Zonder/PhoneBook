@@ -25,13 +25,13 @@ class PhonesController extends Controller
         }
         else if (isset($_GET['update'])) {
             $phone = json_decode($_GET['vals']);
-            $phone->phone[0] = urlencode($phone->phone[0]);
+            if (isset($phone->phone[0])) $phone->phone[0] = urlencode($phone->phone[0]);
             $phoneBook->updatePhone($phone);
             echo 'ok';
         }
         else if (isset($_GET['newEntry'])) {
             $phone = json_decode($_GET['vals']);
-            $phone->phone[0] = urlencode($phone->phone[0]);
+            if (isset($phone->phone[0])) $phone->phone[0] = urlencode($phone->phone[0]);
             $phoneBook->createPhone($phone, $this->user['id']);
             echo 'ok';
         }
