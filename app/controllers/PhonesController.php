@@ -98,41 +98,65 @@ class PhonesController extends Controller
         /**
          * Вывод фото
          */
-        else if (isset($_GET['file'])) {
+        else if (isset($_GET['photo'])) {
             // Check owner
-            if (!$phoneBook->checkImageOwher($_GET['file'], $this->user['id'])) {
-                echo 'No file: ', $_GET['file'];
+            if (!$phoneBook->checkImageOwher($_GET['photo'], $this->user['id'])) {
+                echo 'No photo: ', $_GET['photo'];
                 return;
             }
 
             // Load photo
             $photoArchive = new PhotoArchive();
-            $photoArchive->loadPhoto($_GET['file']);
+            $photoArchive->loadPhoto($_GET['photo']);
         }
+
+        /**
+         * Удаление фото
+         */
+         else if (isset($_GET['deletePhoto'])) {
+             // Check owner
+             if (!$phoneBook->checkImageOwher($_GET['deletePhoto'], $this->user['id'])) {
+                 echo 'No photo: ', $_GET['deletePhoto'];
+                 return;
+             }
+
+             // Delete photo
+             $photoArchive = new PhotoArchive();
+             $phoneBook->deleteImage($_GET['phoneId'], $this->user['id'], $_GET['deletePhoto']);
+             $photoArchive->deletePhoto($_GET['deletePhoto']);      // Must be made in sql
+         }
 
         /**
          * Загрузка фото
          */
         else if (count($_FILES) > 0) {
-            // echo "Input\n";
-            // dd($_FILES['photo']);
-            // dd($_POST['phoneId']);
+            // Check errors
+            $errors = [];
 
+            // Phone id not set
+            if (!isset($_POST['phoneId']) || $_POST['phoneId'] == '' || $_POST['phoneId'] == '-1') {
+                $errors[] = "Phone id not set";
+            }
+
+            // Check load errors
             $photoArchive = new PhotoArchive();
-            $errors = $photoArchive->checkErrors();
-            // echo "Errors\n";
-            // dd($errors);
+            $errors = array_merge($errors, $photoArchive->checkErrors());
+
+            // If errors
             if (count($errors) > 0) {
                 echo json_encode($errors, JSON_UNESCAPED_UNICODE);
                 return;
             }
 
+            // Save photo
             $photoArchive->savePhoto();
             $phoneBook->updateImage($_POST['phoneId'], $this->user['id'], $_FILES['photo']['name']);
             echo 'ok';
         }
 
-        //   Render index   //
+        /**
+         * Вывод страницы с книгой
+         */
         else {
             $phones = $phoneBook->getPhones($this->user['id']);
             $this->view->render('Моя телефонная книга', ["phones" => $phones]);

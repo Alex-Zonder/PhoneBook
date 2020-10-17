@@ -1,9 +1,4 @@
 <?php
-// Возращаем файлы напрямую //
-// if (preg_match('/\.(?:js|css|png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"]))
-// 	return false;
-
-
 //   Включаем работу с ошибками   //
 require dirname(__DIR__) . '/app/lib/dev.php';
 

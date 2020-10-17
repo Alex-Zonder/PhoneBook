@@ -5,6 +5,9 @@ use core\Model;
 
 class PhoneBook extends Model
 {
+    /**
+     * Вывод записной книги
+     */
     public function getPhones(int $ownerId): array
     {
         $query = 'SELECT * FROM phone_book WHERE owner_id = :owner_id';
@@ -14,6 +17,9 @@ class PhoneBook extends Model
         return $result;
     }
 
+    /**
+     * Подсчет записей
+     */
     public function countPhones(int $ownerId): int
     {
         $query = 'SELECT count(*) FROM phone_book WHERE owner_id = :owner_id';
@@ -23,6 +29,9 @@ class PhoneBook extends Model
         return intval($result[0]["count(*)"]);
     }
 
+    /**
+     * Удаление карточки
+     */
     public function deletePhone(int $id, int $ownerId)
     {
         $query = 'DELETE FROM phone_book WHERE id = :id AND owner_id = :owner_id';
@@ -33,6 +42,9 @@ class PhoneBook extends Model
         $this->db->query($query, $params);
     }
 
+    /**
+     * Обновление карточки
+     */
     public function updatePhone(object $phone)
     {
         $query = "UPDATE phone_book SET name = :name, last_name = :last_name, email = :email, phone = :phone WHERE id = :id";
@@ -46,6 +58,9 @@ class PhoneBook extends Model
         $this->db->query($query, $params);
     }
 
+    /**
+     * Создание новой карточки
+     */
     public function createPhone(object $phone, int $owner_id)
     {
         $query = 'INSERT INTO phone_book (owner_id, name, last_name, email, phone) VALUES (:owner_id, :name, :last_name, :email, :phone)';
@@ -59,6 +74,9 @@ class PhoneBook extends Model
         $this->db->query($query, $params);
     }
 
+    /**
+     * Обновление фото
+     */
     public function updateImage(int $phoneId, int $ownerId, string $image)
     {
         $query = "UPDATE phone_book SET image = :image WHERE id = :id AND owner_id = :owner_id";
@@ -70,6 +88,23 @@ class PhoneBook extends Model
         $this->db->query($query, $params);
     }
 
+    /**
+     * Удаление фото
+     */
+    public function deleteImage(int $phoneId, int $ownerId, string $image)
+    {
+        $query = "UPDATE phone_book SET image = null WHERE id = :id AND owner_id = :owner_id AND image = :image";
+        $params = [
+            'id' => $phoneId,
+            'owner_id' => $ownerId,
+            'image' => $image
+        ];
+        $this->db->query($query, $params);
+    }
+
+    /**
+     * Проверка владельца фото
+     */
     public function checkImageOwher(string $image, int $ownerId): bool
     {
         $query = "SELECT * FROM phone_book WHERE owner_id = :owner_id AND image = :image";

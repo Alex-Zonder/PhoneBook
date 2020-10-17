@@ -11,9 +11,7 @@
 
     <div v-for="phone in filterPhones" class="phone">
         <div style="float:left; width:40%;">
-            Фото
-            <hr style="margin:2px 0 4px 0;">
-            <img :src="'?file=' + phone.image" width="40%">
+            <img :src="phone.image ? '?photo=' + phone.image : '/images/default_avatar.png'" width="40%">
         </div>
         <div style="float:left; width:60%; text-align:left; position:relative;">
             <table width="99%">
@@ -48,9 +46,7 @@
 
 <div id="editTable" style="display: none">
     <div style="float:left; width:40%;">
-        Фото
-        <hr style="margin:2px 0 4px 0;">
-        <img :src="image == '' ? ('?file=' + phone.image) : image" width="50%" />
+        <img :src="image != '' ? image : (phone.image ? '?photo=' + phone.image : '/images/default_avatar.png')" width="50%" />
         <hr style="margin:2px 0 4px 0;">
         <input type="file" id="file-input" style="display: none;" v-on:change="onFileChange" />
         <button type="button" class="btn btn-success" v-on:click="loadPhoto()">Загрузить</button>

@@ -10,6 +10,10 @@ class PhotoArchive
         $this->path = dirname(__DIR__, 2)."/vars/photo/";
     }
 
+
+    /**
+     * Проверка $_FILES на ошибки
+     */
     public function checkErrors(): array
     {
         $errors = [];
@@ -24,7 +28,7 @@ class PhotoArchive
             $errors[] = "Max file size 5M";
         }
 
-        // File ext
+        // File expansion
         $fileExp = strtolower(explode('.', $_FILES['photo']['name'])[count(explode('.', $_FILES['photo']['name']))-1]);
         $expansions = array("jpeg", "jpg", "png");
         if (in_array($fileExp, $expansions) === false) {
@@ -34,12 +38,34 @@ class PhotoArchive
         return $errors;
     }
 
+
+    /**
+     * Сохранение фото
+     */
     public function savePhoto()
     {
         move_uploaded_file($_FILES['photo']['tmp_name'], $this->path.$_FILES['photo']['name']);
         chmod($this->path.$_FILES['photo']['name'], 0777);
     }
 
+
+    /**
+     * Удаление фото
+     */
+    public function deletePhoto(string $path): bool
+    {
+        if (!is_file($this->path.$path)) {
+             return false;
+        }
+
+        unlink($this->path.$path);
+        return true;
+    }
+
+
+    /**
+     * Вывод фото
+     */
     public function loadPhoto($fileName)
     {
         // Get file

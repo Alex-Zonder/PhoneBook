@@ -114,8 +114,14 @@ var appEdit = new Vue({
             });
         },
         removePhoto: function (e) {
-            this.image = '';
-            alert('remove..');
+            if (confirm('Удалить фото ' + this.phone.image + '?')) {
+                // this.image = '';
+                fetch('/phones?deletePhoto=' + this.phone.image + '&phoneId=' + this.phone.id)
+                    .then(response => response.text())
+                    .then(text => {
+                        alert(text);
+                    });
+            }
         }
     }
 });
