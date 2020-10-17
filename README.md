@@ -6,6 +6,7 @@ Need docker & php.7.> to be installed.
 ```bash
 git clone https://github.com/Alex-Zonder/PhoneBook.git \
 && cd PhoneBook \
+&& mkdir -p vars/photo \
 && chmod +x sql-docker.sh \
 && chmod +x start-php-serve.sh
 ```

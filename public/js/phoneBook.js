@@ -60,7 +60,6 @@ var appEdit = new Vue({
                 .then(text => {
                     if (text == 'ok') {
                         this.back();
-                        alert('Запись сохранена');
                     }
                     else alert('Ошибка сохранения!\n- ' + JSON.parse(text).join("\n- "));
                 });
@@ -71,7 +70,6 @@ var appEdit = new Vue({
                 .then(text => {
                     if (text == 'ok') {
                         this.back();
-                        alert('Новая запись сохранена');
                     }
                     else alert('Ошибка сохранения!\n- ' + JSON.parse(text).join("\n- "));
                 });
@@ -103,7 +101,17 @@ var appEdit = new Vue({
             reader.readAsDataURL(file);
         },
         sendPhoto(file) {
-            alert('send..' + file.name);
+            var data = new FormData();
+            data.append('photo', file);
+            data.append('phoneId', this.phone.id);
+            fetch('', {
+                method: 'POST',
+                body: data
+            })
+            .then(response => response.text())
+            .then(text => {
+                alert(text);
+            });
         },
         removePhoto: function (e) {
             this.image = '';

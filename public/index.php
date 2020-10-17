@@ -1,7 +1,7 @@
 <?php
 // Возращаем файлы напрямую //
-if (preg_match('/\.(?:js|css|png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"]))
-	return false;
+// if (preg_match('/\.(?:js|css|png|jpg|jpeg|gif)$/', $_SERVER["REQUEST_URI"]))
+// 	return false;
 
 
 //   Включаем работу с ошибками   //

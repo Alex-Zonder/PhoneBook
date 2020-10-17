@@ -5,7 +5,7 @@ use core\Model;
 
 class PhoneBook extends Model
 {
-    function getPhones(int $ownerId = 0)
+    public function getPhones(int $ownerId): array
     {
         $query = 'SELECT * FROM phone_book WHERE owner_id = :owner_id';
         $params = ['owner_id' => $ownerId];
@@ -14,16 +14,16 @@ class PhoneBook extends Model
         return $result;
     }
 
-    function countPhones(int $ownerId = 0)
+    public function countPhones(int $ownerId): int
     {
         $query = 'SELECT count(*) FROM phone_book WHERE owner_id = :owner_id';
         $params = ['owner_id' => $ownerId];
         $result = $this->db->getArray($query, $params);
 
-        return $result[0]["count(*)"];
+        return intval($result[0]["count(*)"]);
     }
 
-    function deletePhone(int $id, int $ownerId = 0)
+    public function deletePhone(int $id, int $ownerId)
     {
         $query = 'DELETE FROM phone_book WHERE id = :id AND owner_id = :owner_id';
         $params = [
@@ -33,7 +33,7 @@ class PhoneBook extends Model
         $this->db->query($query, $params);
     }
 
-    function updatePhone(object $phone)
+    public function updatePhone(object $phone)
     {
         $query = "UPDATE phone_book SET name = :name, last_name = :last_name, email = :email, phone = :phone WHERE id = :id";
         $params = [
@@ -46,7 +46,7 @@ class PhoneBook extends Model
         $this->db->query($query, $params);
     }
 
-    function createPhone(object $phone, int $owner_id)
+    public function createPhone(object $phone, int $owner_id)
     {
         $query = 'INSERT INTO phone_book (owner_id, name, last_name, email, phone) VALUES (:owner_id, :name, :last_name, :email, :phone)';
         $params = [
@@ -57,5 +57,32 @@ class PhoneBook extends Model
             'phone' => isset($phone->phone) ? $phone->phone : null,
         ];
         $this->db->query($query, $params);
+    }
+
+    public function updateImage(int $phoneId, int $ownerId, string $image)
+    {
+        $query = "UPDATE phone_book SET image = :image WHERE id = :id AND owner_id = :owner_id";
+        $params = [
+            'id' => $phoneId,
+            'owner_id' => $ownerId,
+            'image' => $image,
+        ];
+        $this->db->query($query, $params);
+    }
+
+    public function checkImageOwher(string $image, int $ownerId): bool
+    {
+        $query = "SELECT * FROM phone_book WHERE owner_id = :owner_id AND image = :image";
+        $params = [
+            'owner_id' => $ownerId,
+            'image' => $image,
+        ];
+        $result = $this->db->getArray($query, $params);
+
+        if (!isset($result[0])) {
+            return false;
+        }
+
+        return true;
     }
 }
