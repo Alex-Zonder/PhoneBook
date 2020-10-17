@@ -2,8 +2,8 @@
 namespace controllers;
 
 use core\Controller;
-
 use models\Users;
+use lib\Validator;
 
 class MainController extends Controller
 {
@@ -56,20 +56,23 @@ class MainController extends Controller
         $errors = [];
         // Ragistration //
         if (isset($_POST['login'])) {
-            // dd($_POST);
-            // Validation //
-            // Check login (до 16 символов, буквы и цифры)
-            if (!preg_match('#^' . "[-A-Za-z0-9]{4,16}" . '$#', $_POST['login']))
+            //   Validation   //
+            // Check login
+            if (!Validator::checkLogin($_POST['login'])) {
                 $errors[] = "Лгоин: длинна должна быть 4 - 16 символов.";
+            }
             // Check email
-            if (!preg_match("#^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$#", $_POST['email']))
+            if (!Validator::checkEmail($_POST['email'])) {
                 $errors[] = "Почта: не верный формат.";
-            // Check password (до 16 символов, буквы и цифры)
-            if (!preg_match('/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%_-])[0-9A-Za-z!@#$%_-]{6,16}$/', $_POST['password']))
+            }
+            // Check password
+            if (!Validator::checkPassword($_POST['password'])) {
                 $errors[] = 'Пароль: 6 - 16 символов; должен содеражать: 1 заглавную, 1 цифру, один символ (!@#$%_-).';
+            }
             // Check passwords //
-            if ($_POST['password'] != $_POST['password2'])
+            if ($_POST['password'] != $_POST['password2']) {
                 $errors[] = 'Пароли не совпадают.';
+            }
 
             // Проверка существующих login & email //
             if (count($errors) == 0) {

@@ -13,11 +13,11 @@ if (count($errors) > 0){
     <table>
         <tr>
             <td align="right">Логин</td>
-            <td><input type="text" name="login" placeholder="Login"></td>
+            <td><input type="text" name="login" placeholder="Login" value="<?php echo isset($_POST['login']) ? $_POST['login'] : '' ?>"></td>
         </tr>
         <tr>
             <td align="right">Почта</td>
-            <td><input type="text" name="email" placeholder="Email"></td>
+            <td><input type="text" name="email" placeholder="Email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : '' ?>"></td>
         </tr>
         <tr>
             <td align="right">Пароль</td>

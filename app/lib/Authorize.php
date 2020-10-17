@@ -1,8 +1,6 @@
 <?php
 namespace lib;
 
-use lib\DB\DbPdo;
-
 use models\Users;
 
 class Authorize

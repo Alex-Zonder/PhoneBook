@@ -7,7 +7,7 @@ class PhoneBook extends Model
 {
     function getPhones(int $ownerId = 0)
     {
-        $query = 'SELECT * from phone_book where owner_id = :owner_id';
+        $query = 'SELECT * FROM phone_book WHERE owner_id = :owner_id';
         $params = ['owner_id' => $ownerId];
         $result = $this->db->getArray($query, $params);
 
@@ -16,23 +16,26 @@ class PhoneBook extends Model
 
     function countPhones(int $ownerId = 0)
     {
-        $query = 'SELECT count(*) from phone_book where owner_id = :owner_id';
+        $query = 'SELECT count(*) FROM phone_book WHERE owner_id = :owner_id';
         $params = ['owner_id' => $ownerId];
         $result = $this->db->getArray($query, $params);
 
         return $result[0]["count(*)"];
     }
 
-    function deletePhone(int $id)
+    function deletePhone(int $id, int $ownerId = 0)
     {
-        $query = 'DELETE from phone_book where id = :id';
-        $params = ['id' => $id];
+        $query = 'DELETE FROM phone_book WHERE id = :id AND owner_id = :owner_id';
+        $params = [
+            'id' => $id,
+            'owner_id' => $ownerId
+        ];
         $this->db->query($query, $params);
     }
 
     function updatePhone(object $phone)
     {
-        $query = "UPDATE phone_book SET name = :name, last_name = :last_name, email = :email, phone = :phone where id = :id";
+        $query = "UPDATE phone_book SET name = :name, last_name = :last_name, email = :email, phone = :phone WHERE id = :id";
         $params = [
             'name' => $phone->name,
             'last_name' => $phone->last_name,
