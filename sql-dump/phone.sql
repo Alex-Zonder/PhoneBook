@@ -27,13 +27,13 @@ CREATE TABLE `phone_book` (
   `owner_id` int(10) unsigned NOT NULL,
   `name` varchar(64) DEFAULT NULL,
   `last_name` varchar(64) DEFAULT NULL,
-  `phone` varchar(16) DEFAULT NULL,
+  `phone` varchar(32) DEFAULT NULL,
   `email` varchar(64) DEFAULT NULL,
   `image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `owner_id` (`owner_id`),
   CONSTRAINT `phone_book_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `phone_book` (
 
 LOCK TABLES `phone_book` WRITE;
 /*!40000 ALTER TABLE `phone_book` DISABLE KEYS */;
-INSERT INTO `phone_book` VALUES (1,1,'Вася',NULL,'+7(925)0161116',NULL,NULL);
+INSERT INTO `phone_book` VALUES (1,1,'Виктор','Петров','+7(555)333-44-55','victor_petrov@bk.ru',NULL),(2,1,'Иван','Сидоров','8(555)3332211','ivan@ya.ru',NULL),(3,1,'Мария','Петрова','+7(813)555-77-66','maria@gmail.com',NULL);
 /*!40000 ALTER TABLE `phone_book` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -57,9 +57,11 @@ CREATE TABLE `users` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `login` varchar(16) NOT NULL,
   `email` varchar(64) NOT NULL,
-  `password` varchar(64) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_login` (`login`),
+  UNIQUE KEY `user_email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,7 +70,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Zonder','f-m@bk.ru','81dc9bdb52d04dc20036dbd8313ed055'),(2,'test','admin@admin.admin','098f6bcd4621d373cade4e832627b4f6');
+INSERT INTO `users` VALUES (1,'Zonder','f-m@bk.ru','$2y$10$sjODznTlkW9SVGvVMANj7ONDeXEtMYiFvZNWTvPoaTFRiEIrxzGme');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -81,4 +83,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-10-10 21:10:10
+-- Dump completed on 2020-10-17 13:21:42

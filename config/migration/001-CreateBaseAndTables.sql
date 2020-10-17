@@ -8,8 +8,10 @@ create table if not exists `users` (
     `id` int(10) unsigned not null auto_increment,
     `login` varchar(16) not null,
     `email` varchar(64) not null,
-    `password` varchar(64) not null,
-    primary key (id)
+    `password` varchar(255) not null,
+    primary key (id),
+    UNIQUE user_login (login),
+    UNIQUE user_email (email)
 )
 engine = innodb
 auto_increment = 1

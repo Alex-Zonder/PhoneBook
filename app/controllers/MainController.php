@@ -12,17 +12,12 @@ class MainController extends Controller
      */
     function indexAction ()
     {
-        //   Work with view params   //
-        // $this->view->path = 'account/login';
-        // $this->view->redirect('/');
-
         //   Work with model   //
         $phoneBook = $this->loadModel('PhoneBook');
         $phonesTotal = $phoneBook->countPhones($this->user['id']);
 
         $this->view->render('Главная страница', ['phonesTotal' => $phonesTotal]);
     }
-
 
 
     /**
@@ -32,7 +27,6 @@ class MainController extends Controller
     {
         $this->view->render('Авторизация');
     }
-
 
 
     /**
@@ -45,7 +39,6 @@ class MainController extends Controller
 
         $this->view->redirect('/');
     }
-
 
 
     /**
