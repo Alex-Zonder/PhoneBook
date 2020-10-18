@@ -29,6 +29,7 @@ class PhonesController extends Controller
          */
         else if (isset($_GET['delete'])) {
             $phoneBook->deletePhone($_GET['delete'], $this->user['id']);
+
             echo 'ok';
         }
 
@@ -56,8 +57,9 @@ class PhonesController extends Controller
                 return;
             }
 
-            // Update entry & Return ok
+            // Update entry
             $phoneBook->updatePhone($phone);
+
             echo 'ok';
         }
 
@@ -90,8 +92,9 @@ class PhonesController extends Controller
                 return;
             }
 
-            // Create entry & Return ok
+            // Create entry
             $phoneBook->createPhone($phone, $this->user['id']);
+
             echo 'ok';
         }
 
@@ -124,6 +127,8 @@ class PhonesController extends Controller
              $photoArchive = new PhotoArchive();
              $phoneBook->deleteImage($_GET['phoneId'], $this->user['id'], $_GET['deletePhoto']);
              $photoArchive->deletePhoto($_GET['deletePhoto']);      // Must be made in sql
+
+             echo "ok";
          }
 
         /**
@@ -148,9 +153,16 @@ class PhonesController extends Controller
                 return;
             }
 
+            // If photo alredy exists - remove
+            $phone = $phoneBook->getPhone($_POST['phoneId']);
+            if (isset($phone) && isset($phone['image'])) {
+                $photoArchive->deletePhoto($phone['image']);
+            }
+
             // Save photo
             $photoArchive->savePhoto();
             $phoneBook->updateImage($_POST['phoneId'], $this->user['id'], $_FILES['photo']['name']);
+
             echo 'ok';
         }
 

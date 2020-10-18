@@ -30,6 +30,24 @@ class PhoneBook extends Model
     }
 
     /**
+     * Достать карточку
+     */
+    public function getPhone(int $id): ?array
+    {
+        $query = 'SELECT * FROM phone_book WHERE id = :id';
+        $params = [
+            'id' => $id
+        ];
+        $result = $this->db->getArray($query, $params);
+
+        if (!isset($result[0])) {
+            return null;
+        }
+
+        return $result[0];
+    }
+
+    /**
      * Удаление карточки
      */
     public function deletePhone(int $id, int $ownerId)
