@@ -32,11 +32,12 @@ class PhoneBook extends Model
     /**
      * Достать карточку
      */
-    public function getPhone(int $id): ?array
+    public function getPhone(int $id, int $ownerId): ?array
     {
-        $query = 'SELECT * FROM phone_book WHERE id = :id';
+        $query = 'SELECT * FROM phone_book WHERE id = :id AND owner_id = :owner_id';
         $params = [
-            'id' => $id
+            'id' => $id,
+            'owner_id' => $ownerId
         ];
         $result = $this->db->getArray($query, $params);
 
@@ -95,7 +96,7 @@ class PhoneBook extends Model
     /**
      * Обновление фото
      */
-    public function updateImage(int $phoneId, int $ownerId, string $image)
+    public function setImage(int $phoneId, int $ownerId, string $image)
     {
         $query = "UPDATE phone_book SET image = :image WHERE id = :id AND owner_id = :owner_id";
         $params = [
@@ -109,13 +110,12 @@ class PhoneBook extends Model
     /**
      * Удаление фото
      */
-    public function deleteImage(int $phoneId, int $ownerId, string $image)
+    public function deleteImage(int $phoneId, int $ownerId)
     {
-        $query = "UPDATE phone_book SET image = null WHERE id = :id AND owner_id = :owner_id AND image = :image";
+        $query = "UPDATE phone_book SET image = NULL WHERE id = :id AND owner_id = :owner_id";
         $params = [
             'id' => $phoneId,
-            'owner_id' => $ownerId,
-            'image' => $image
+            'owner_id' => $ownerId
         ];
         $this->db->query($query, $params);
     }

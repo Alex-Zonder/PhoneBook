@@ -28,6 +28,13 @@ class PhonesController extends Controller
          * Удаление записи
          */
         else if (isset($_GET['delete'])) {
+            // Delete photo if exists
+            $phone = $phoneBook->getPhone($_GET['delete'], $this->user['id']);
+            if (isset($phone) && isset($phone['image'])) {
+                $photoArchive = new PhotoArchive();
+                $photoArchive->deletePhoto($phone['image']);
+            }
+
             $phoneBook->deletePhone($_GET['delete'], $this->user['id']);
 
             echo 'ok';
@@ -124,9 +131,9 @@ class PhonesController extends Controller
              }
 
              // Delete photo
-             $photoArchive = new PhotoArchive();
              $phoneBook->deleteImage($_GET['phoneId'], $this->user['id'], $_GET['deletePhoto']);
-             $photoArchive->deletePhoto($_GET['deletePhoto']);      // Must be made in sql
+             $photoArchive = new PhotoArchive();
+             $photoArchive->deletePhoto($_GET['deletePhoto']);
 
              echo "ok";
          }
@@ -154,16 +161,16 @@ class PhonesController extends Controller
             }
 
             // If photo alredy exists - remove
-            $phone = $phoneBook->getPhone($_POST['phoneId']);
+            $phone = $phoneBook->getPhone($_POST['phoneId'], $this->user['id']);
             if (isset($phone) && isset($phone['image'])) {
                 $photoArchive->deletePhoto($phone['image']);
             }
 
             // Save photo
-            $photoArchive->savePhoto();
-            $phoneBook->updateImage($_POST['phoneId'], $this->user['id'], $_FILES['photo']['name']);
+            $photoName = $photoArchive->savePhoto();
+            $phoneBook->setImage($_POST['phoneId'], $this->user['id'], $photoName);
 
-            echo 'ok';
+            echo 'ok:'.$photoName;
         }
 
         /**

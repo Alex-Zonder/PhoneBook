@@ -1,4 +1,4 @@
-.phone {
+.phone, #editTable {
     margin: 2px;
     width: calc(49%);
     float:left;
@@ -10,4 +10,8 @@
 }
 @media (max-width: 800px) {
     .phone {width: calc(100%);}
+}
+
+#editTable {
+    width: 100%;
 }

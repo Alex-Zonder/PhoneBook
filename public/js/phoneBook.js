@@ -21,7 +21,9 @@ var app = new Vue({
         deleteEntry(id) {
             let phonesArrId = app.findById(id);
             if (confirm(`Удалить запись: ${this.phones[phonesArrId].name} ${this.phones[phonesArrId].last_name}?`)) {
-                fetch('/phones?delete=' + this.phones[phonesArrId].id);
+                fetch('/phones?delete=' + this.phones[phonesArrId].id)
+                    .then(response => response.text())
+                    .then(text => { alert(text) });
                 this.phones.splice(phonesArrId, 1);
             }
         },
@@ -40,7 +42,6 @@ var appEdit = new Vue({
     el: '#editTable',
     data: {
         phone: {id:'', name:'', last_name:'', email:'', phone:''},
-        image: ''
     },
     methods: {
         back() {
@@ -87,18 +88,7 @@ var appEdit = new Vue({
             if (!files.length)
                 return;
 
-            this.createPhoto(files[0]);
             this.sendPhoto(files[0]);
-        },
-        createPhoto(file) {
-            var image = new Image();
-            var reader = new FileReader();
-            var vm = this;
-
-            reader.onload = (e) => {
-                vm.image = e.target.result;
-            };
-            reader.readAsDataURL(file);
         },
         sendPhoto(file) {
             var data = new FormData();
@@ -110,16 +100,23 @@ var appEdit = new Vue({
             })
             .then(response => response.text())
             .then(text => {
-                alert(text);
+                if (text.match('^ok')) {
+                    let imageName = text.split('ok:')[1];
+                    this.phone.image = imageName;
+                }
+                else { alert(text); }
             });
         },
         removePhoto: function (e) {
-            if (confirm('Удалить фото ' + this.phone.image + '?')) {
-                // this.image = '';
+            if (confirm('Удалить фото?')) {
                 fetch('/phones?deletePhoto=' + this.phone.image + '&phoneId=' + this.phone.id)
                     .then(response => response.text())
                     .then(text => {
-                        alert(text);
+                        if (text == 'ok') {
+                            this.image = '';
+                            this.phone.image = '';
+                        }
+                        else { alert(text); }
                     });
             }
         }

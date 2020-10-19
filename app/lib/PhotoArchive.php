@@ -10,6 +10,11 @@ class PhotoArchive
         $this->path = dirname(__DIR__, 2)."/vars/photo/";
     }
 
+    protected function getFileExp(string $path): string
+    {
+        return strtolower(explode('.', $path)[count(explode('.', $path))-1]);
+    }
+
 
     /**
      * Проверка $_FILES на ошибки
@@ -29,7 +34,7 @@ class PhotoArchive
         }
 
         // File expansion
-        $fileExp = strtolower(explode('.', $_FILES['photo']['name'])[count(explode('.', $_FILES['photo']['name']))-1]);
+        $fileExp = $this->getFileExp($_FILES['photo']['name']);
         $expansions = array("jpeg", "jpg", "png");
         if (in_array($fileExp, $expansions) === false) {
             $errors[] = "Extension not allowed: " . implode(", ", $expansions);
@@ -44,8 +49,14 @@ class PhotoArchive
      */
     public function savePhoto()
     {
-        move_uploaded_file($_FILES['photo']['tmp_name'], $this->path.$_FILES['photo']['name']);
-        chmod($this->path.$_FILES['photo']['name'], 0777);
+        // Hush file
+        $exp = $this->getFileExp($_FILES['photo']['name']);
+        $hashName = md5(date("Ymd:His:").$_FILES['photo']['name']).'.'.$exp;
+
+        move_uploaded_file($_FILES['photo']['tmp_name'], $this->path.$hashName);
+        chmod($this->path.$hashName, 0777);
+
+        return $hashName;
     }
 
 
