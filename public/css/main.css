@@ -21,3 +21,25 @@
     box-shadow: 0px 0px 0px grey;
     border: 1px solid #ddd;
 }
+
+
+.wrapper {
+  width: 250px;
+  height: 250px;
+  border-radius: 10px;
+}
+.wrapper-small {
+  width: 120px;
+  height: 120px;
+  border-radius: 10px;
+}
+.photo {
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.photo img {
+  height: 100%;
+  width: auto;
+}

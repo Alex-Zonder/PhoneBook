@@ -11,7 +11,9 @@
 
     <div v-for="phone in filterPhones" class="phone">
         <div style="float:left; width:40%;">
-            <img :src="phone.image ? '?photo=' + phone.image : '/images/default_avatar.png'" width="40%">
+            <div class="wrapper-small photo">
+                <img :src="phone.image ? '?photo=' + phone.image : '/images/default_avatar.png'" width="40%">
+            </div>
         </div>
         <div style="float:left; width:60%; text-align:left; position:relative;">
             <table width="99%">
@@ -46,7 +48,9 @@
 
 <div id="editTable" v-if="visible">
     <div style="float:left; width:40%;">
-        <img :src="phone.image ? '?photo=' + phone.image : '/images/default_avatar.png'" width="50%" />
+        <div class="wrapper photo">
+            <img :src="phone.image ? '?photo=' + phone.image : '/images/default_avatar.png'" width="50%" />
+        </div>
         <hr style="margin:2px 0 4px 0;">
         <div v-if="phone.id > 0">
             <input type="file" id="file-input" style="display: none;" v-on:change="onFileChange" />
