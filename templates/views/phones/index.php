@@ -1,7 +1,7 @@
 <h3>Телефонная книга <?php echo $this->user['login']; ?></h3><hr>
 
 
-<div id="phoneBook" style="position:relative;">
+<div id="phoneBook" v-if="visible" style="position:relative;">
     <div style="text-align:left;">
         <input type="text" v-model="search" style="width:50%;" placeholder="Поиск: почта, имя, фамилия">
          | Всего: {{ filterPhones.length }}
@@ -44,13 +44,18 @@
 
 
 
-<div id="editTable" style="display: none">
+<div id="editTable" v-if="visible">
     <div style="float:left; width:40%;">
         <img :src="phone.image ? '?photo=' + phone.image : '/images/default_avatar.png'" width="50%" />
         <hr style="margin:2px 0 4px 0;">
-        <input type="file" id="file-input" style="display: none;" v-on:change="onFileChange" />
-        <button type="button" class="btn btn-success" v-on:click="loadPhoto()">Загрузить</button>
-        <button type="button" class="btn btn-danger" v-on:click="removePhoto()">Удалить</button>
+        <div v-if="phone.id > 0">
+            <input type="file" id="file-input" style="display: none;" v-on:change="onFileChange" />
+            <button type="button" class="btn btn-success" v-on:click="loadPhoto()">Загрузить</button>
+            <button type="button" class="btn btn-danger" v-on:click="removePhoto()">Удалить</button>
+        </div>
+        <div v-if="phone.id <= 0">
+            Для добавления фото сначала сохраните карточку абонента
+        </div>
     </div>
     <div style="float:left; width:60%; text-align:left; position:relative;">
         <table width="99%">

@@ -1,6 +1,7 @@
 var app = new Vue({
     el: '#phoneBook',
     data: {
+        visible: true,
         phones: phoneBook,
         search: ''
     },
@@ -28,9 +29,9 @@ var app = new Vue({
             }
         },
         editEntry(id = -1) {
-            $("#phoneBook").hide();
             appEdit.phone = id > -1 ? this.phones[app.findById(id)] : {id: -1};
-            $("#editTable").show();
+            this.visible = false;
+            appEdit.visible = true;
         }
     },
 });
@@ -41,6 +42,7 @@ var app = new Vue({
 var appEdit = new Vue({
     el: '#editTable',
     data: {
+        visible: false,
         phone: {id:'', name:'', last_name:'', email:'', phone:''},
     },
     methods: {
@@ -48,8 +50,8 @@ var appEdit = new Vue({
             fetch('/phones?get=list')
                 .then(response => response.json())
                 .then(data => app.phones = data);
-            $("#phoneBook").show();
-            $("#editTable").hide();
+            this.visible = false;
+            app.visible = true;
         },
         save() {
             if (this.phone.id > -1) this.update();
@@ -80,7 +82,7 @@ var appEdit = new Vue({
          * Work with photo
          */
         loadPhoto() {
-            $('#file-input').trigger('click');
+            document.getElementById('file-input').click();
         },
         onFileChange: function(e) {
             var files = e.target.files || e.dataTransfer.files;
