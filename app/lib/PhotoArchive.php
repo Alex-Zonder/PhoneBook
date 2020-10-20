@@ -1,18 +1,21 @@
 <?php
 namespace lib;
 
+
 class PhotoArchive
 {
-    public $path;
+    protected $path;
+
 
     public function __construct()
     {
         $this->path = dirname(__DIR__, 2)."/vars/photo/";
     }
 
-    protected function getFileExp(string $path): string
+
+    protected function getFileExt(string $path): string
     {
-        return strtolower(explode('.', $path)[count(explode('.', $path))-1]);
+        return strtolower(pathinfo($path)['extension']);
     }
 
 
@@ -25,19 +28,21 @@ class PhotoArchive
 
         // Load error
         if ($_FILES['photo']['error'] > 0) {
-            $errors[] = "Load error";
+            $errors[] = "Load error.";
         }
 
         // File size
         if ($_FILES['photo']['size'] > (5 * 1024 * 1024)) {
-            $errors[] = "Max file size 5M";
+            $errors[] = "Max file size 5M.";
         }
 
-        // File expansion
-        $fileExp = $this->getFileExp($_FILES['photo']['name']);
-        $expansions = array("jpeg", "jpg", "png");
-        if (in_array($fileExp, $expansions) === false) {
-            $errors[] = "Extension not allowed: " . implode(", ", $expansions);
+        // File extension
+        if ($_FILES['photo']['error'] == 0) {
+            $fileExt = $this->getFileExt($_FILES['photo']['name']);
+            $extensions = array("jpeg", "jpg", "png");
+            if (in_array($fileExt, $extensions) === false) {
+                $errors[] = "Extension not allowed: " . implode(", ", $extensions);
+            }
         }
 
         return $errors;
@@ -47,11 +52,11 @@ class PhotoArchive
     /**
      * Сохранение фото
      */
-    public function savePhoto()
+    public function savePhoto(): string
     {
-        // Hush file
-        $exp = $this->getFileExp($_FILES['photo']['name']);
-        $hashName = md5(date("Ymd:His:").$_FILES['photo']['name']).'.'.$exp;
+        // Hush file name
+        $ext = $this->getFileExt($_FILES['photo']['name']);
+        $hashName = md5(date("Ymd:His:").$_FILES['photo']['name']).'.'.$ext;
 
         move_uploaded_file($_FILES['photo']['tmp_name'], $this->path.$hashName);
         chmod($this->path.$hashName, 0777);
@@ -87,6 +92,7 @@ class PhotoArchive
         header('Content-Type: image/jpeg');
         header('Content-Disposition: attachment; filename="' . $fileName);
         header('Content-Length: ' . strlen($file));
+
         echo $file;
         return;
     }

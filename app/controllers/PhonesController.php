@@ -147,7 +147,7 @@ class PhonesController extends Controller
 
             // Phone id not set
             if (!isset($_POST['phoneId']) || $_POST['phoneId'] == '' || $_POST['phoneId'] == '-1') {
-                $errors[] = "Phone id not set";
+                $errors[] = "Phone id not set.";
             }
 
             // Check load errors

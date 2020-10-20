@@ -113,7 +113,6 @@ var appEdit = new Vue({
                     .then(response => response.text())
                     .then(text => {
                         if (text == 'ok') {
-                            this.image = '';
                             this.phone.image = '';
                         }
                         else { alert(text); }
