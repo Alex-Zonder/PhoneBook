@@ -58,7 +58,7 @@ var appEdit = new Vue({
             else this.newEntry();
         },
         update() {
-            fetch('/phones?update=' + this.phone.id + '&vals=' + JSON.stringify(this.phone))
+            fetch('/phones?update=' + this.phone.id + '&vals=' + encodeURIComponent(JSON.stringify(this.phone)))
                 .then(response => response.text())
                 .then(text => {
                     if (text == 'ok') {
@@ -68,7 +68,7 @@ var appEdit = new Vue({
                 });
         },
         newEntry() {
-            fetch('/phones?newEntry=new&vals=' + JSON.stringify(this.phone))
+            fetch('/phones?newEntry=new&vals=' + encodeURIComponent(JSON.stringify(this.phone)))
                 .then(response => response.text())
                 .then(text => {
                     if (text == 'ok') {

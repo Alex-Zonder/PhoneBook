@@ -45,16 +45,15 @@ class PhonesController extends Controller
          */
         else if (isset($_GET['update'])) {
             $phone = json_decode($_GET['vals']);
-            if (isset($phone->phone[0])) $phone->phone[0] = urlencode($phone->phone[0]);
 
             //   Validation   //
             $errors = [];
             // Check email
-            if (isset($phone->email) && !Validator::checkEmail($phone->email)) {
+            if (isset($phone->email) && $phone->email !== '' && !Validator::checkEmail($phone->email)) {
                     $errors[] = "Почта: не верный формат.";
             }
             // Check phone
-            if (isset($phone->phone) && !Validator::checkPhone($phone->phone)) {
+            if (isset($phone->phone) && $phone->phone !== '' && !Validator::checkPhone($phone->phone)) {
                 $errors[] = "Телефон: не верный формат.";
             }
 
@@ -74,9 +73,7 @@ class PhonesController extends Controller
          * Добавление новой записи
          */
         else if (isset($_GET['newEntry'])) {
-            // Get phone values //
             $phone = json_decode($_GET['vals']);
-            if (isset($phone->phone[0])) $phone->phone[0] = urlencode($phone->phone[0]);
 
             //   Validation   //
             $errors = [];
@@ -85,11 +82,11 @@ class PhonesController extends Controller
                 $errors[] = 'Не заполнены поля имя и(или) фамилия';
             }
             // Check email
-            if (isset($phone->email) && !Validator::checkEmail($phone->email)) {
+            if (isset($phone->email) && $phone->email !== '' && !Validator::checkEmail($phone->email)) {
                     $errors[] = "Почта: не верный формат.";
             }
             // Check phone
-            if (isset($phone->phone) && !Validator::checkPhone($phone->phone)) {
+            if (isset($phone->phone) && $phone->phone !== '' && !Validator::checkPhone($phone->phone)) {
                 $errors[] = "Телефон: не верный формат.";
             }
 
