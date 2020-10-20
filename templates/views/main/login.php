@@ -4,7 +4,7 @@
     <table>
         <tr>
             <td align="right">Логин</td>
-            <td><input type="text" name="login" placeholder="Login or email"></td>
+            <td><input type="text" name="login" placeholder="Login or email" value="<?php echo isset($_POST['login']) ? $_POST['login'] : '' ?>"></td>
         </tr>
         <tr>
             <td align="right">Пароль</td>

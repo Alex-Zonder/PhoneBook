@@ -21,7 +21,7 @@
             <a class="navbar-brand" href="/">Phone Book</a>
             <?php
             if (isset($this) && isset($this->user)) {
-                echo "<a href='logout'>Выход</a>";
+                echo '<button type="button" class="btn btn-primary" onclick="if (confirm(\'Хотите выйти?\')) location.href = \'/logout\';">Выход</button>';
             }
             ?>
         </nav>
