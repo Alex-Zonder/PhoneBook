@@ -8,6 +8,6 @@ abstract class Model
     public $db;
 
     public function __construct() {
-    	$this->db = new DbPdo();
+        $this->db = DbPdo::getInstance();
     }
 }

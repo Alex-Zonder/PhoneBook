@@ -5,12 +5,22 @@ use PDO;
 
 class DbPdo
 {
-    protected $db;
+    private $db;
 
+    private static ?DbPdo $instance = null;
 
-    public function __construct($database = false) {
+    public static function getInstance(): DbPdo
+    {
+        if (static::$instance === null) {
+            static::$instance = new static();
+        }
+
+        return static::$instance;
+    }
+
+    private function __construct($database = false) {
         $config = require dirname(__DIR__, 3) . '/config/db.php';
-        $config['database'] = $database == true ? $database : $config['database'];
+        $config['database'] = $database !== false ? $database : $config['database'];
         try {
             $this->db = new PDO(
                 $config['driver'] . ':host=' . $config['host'] . ':' . $config['port'] . ';dbname=' . $config['database'],
@@ -22,6 +32,10 @@ class DbPdo
             echo "Error!: " . $e->getMessage() . "<br/>";
         }
     }
+
+    private function __clone() {}
+
+    private function __wakeup() {}
 
 
     public function query($query, $params = []) {

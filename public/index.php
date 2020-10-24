@@ -4,14 +4,7 @@ require dirname(__DIR__) . '/app/lib/dev.php';
 
 
 //   Автозагрузка файлов с классом   //
-spl_autoload_register(function($class) {
-	$path = dirname(__DIR__) . '/app/' . str_replace('\\', '/', $class) . '.php';
-	if (file_exists($path))
-		require $path;
-	// Debug if no file //
-	else if (isset($debugMode))
-		echo 'No file with class: ' . $path;
-});
+require dirname(__DIR__) . '/autoload.php';
 
 
 //   Session   //
